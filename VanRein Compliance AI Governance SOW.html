@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VanRein Compliance — AI Governance Statement of Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0D1B2E;
+    --teal: #00B4D4;
+    --teal-dim: #008fa8;
+    --label: #5A7A99;
+    --field-bg: #F2F7FB;
+    --field-bd: #C5D8E8;
+    --foot-gray: #8DA9C4;
+    --white: #ffffff;
+    --text: #0D1B2E;
+    --red: #E53935;
+    --gold: #F59E0B;
+    --gold-bg: #FFFBEB;
+    --gold-text: #92400E;
+    --green: #059669;
+  }
+
+  body {
+    font-family: "Barlow", sans-serif;
+    background: #e8eef4;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none !important; margin: 0 !important; border-radius: 0 !important; }
+    .no-print { display: none !important; }
+    @page { margin: 0.5in; size: letter; }
+  }
+
+  .wrapper { max-width: 820px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  .page {
+    background: white;
+    box-shadow: 0 4px 24px rgba(13,27,46,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+    .header-card {
+    background: var(--navy);
+    padding: 32px 40px 36px 40px;
+    border-bottom: 4px solid var(--teal);
+  }
+  .header-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .header-badge {
+    background: var(--teal); color: var(--navy);
+    font-size: 8px; font-weight: 700; letter-spacing: 0.1em;
+    padding: 7px 14px; border-radius: 3px;
+    white-space: nowrap; flex-shrink: 0; margin-top: 6px;
+  }
+
+
+  .form-title { font-size: 36px; font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 14px; margin-left: 0; padding-left: 0; }
+  .form-subtitle { font-size: 13px; color: var(--foot-gray); line-height: 1.6; max-width: 680px; }
+  .logo-text { display: none; }
+  .form-body { padding: 0 28px 28px; }
+
+  .section-bar {
+    background: var(--navy);
+    margin: 20px -28px 14px;
+    padding: 0 28px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+  }
+  .section-num { font-size: 8px; font-weight: 600; color: var(--teal); letter-spacing: 0.08em; white-space: nowrap; padding-right: 12px; }
+  .section-div { width: 1px; height: 16px; background: #1E4070; flex-shrink: 0; }
+  .section-title { font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: 0.04em; padding-left: 12px; flex: 1; }
+  .section-badge { font-size: 8px; font-weight: 700; padding: 3px 8px; border-radius: 3px; margin-left: auto; white-space: nowrap; }
+  .sb-req { background: var(--teal); color: var(--navy); }
+  .sb-crit { background: var(--red); color: white; }
+
+  .field-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-bottom: 10px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px 16px; margin-bottom: 10px; }
+  .field-full  { margin-bottom: 10px; }
+
+  .field-label {
+    font-size: 8.5px; font-weight: 700; color: var(--label);
+    letter-spacing: 0.07em; text-transform: uppercase;
+    margin-bottom: 5px; display: block;
+  }
+  .req { color: var(--red); }
+
+  input[type="text"], input[type="email"], input[type="tel"],
+  input[type="date"], input[type="number"], textarea, select {
+    width: 100%; background: var(--field-bg);
+    border: 1px solid var(--field-bd); border-radius: 2px;
+    padding: 6px 8px; font-family: "Barlow", sans-serif;
+    font-size: 12px; color: var(--text); outline: none;
+    transition: border-color 0.15s; display: block;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  textarea { resize: vertical; min-height: 52px; }
+  .readonly-field { color: var(--label) !important; }
+
+  .sow-meta {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; border: 1px solid var(--field-bd); border-radius: 3px;
+    overflow: hidden; margin-bottom: 14px;
+  }
+  .sow-meta-cell { padding: 8px 12px; border-right: 1px solid var(--field-bd); }
+  .sow-meta-cell:last-child { border-right: none; }
+  .meta-label { font-size: 7.5px; font-weight: 700; color: var(--label); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+  .sow-meta-cell input { background: transparent; border: none; border-bottom: 1px solid var(--field-bd); width: 100%; font-size: 11.5px; color: var(--text); padding: 2px 0; outline: none; font-family: "Barlow", sans-serif; }
+  .sow-meta-cell input:focus { border-bottom-color: var(--teal); }
+
+  .loyalty-banner { background: var(--gold-bg); border: 1px solid var(--gold); border-radius: 3px; padding: 8px 12px; margin-bottom: 12px; }
+  .loyalty-banner strong { font-size: 11px; color: var(--gold-text); display: block; margin-bottom: 2px; }
+  .loyalty-banner span { font-size: 10.5px; color: var(--gold-text); }
+
+  .program-card {
+    border: 1px solid var(--field-bd); border-radius: 4px;
+    padding: 14px 16px; margin-bottom: 8px;
+    background: var(--field-bg); cursor: pointer;
+    transition: border-color 0.15s;
+    display: grid; grid-template-columns: 1fr auto; gap: 0 12px; align-items: start;
+  }
+  .program-card:hover { border-color: var(--teal-dim); }
+  .program-card.selected { border-color: var(--teal); border-width: 1.5px; background: #EBF5FB; border-left: 4px solid var(--teal); }
+
+  .prog-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+  .prog-badge { background: var(--navy); color: var(--teal); font-size: 8px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 2px; }
+  .prog-title { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .prog-rec   { background: var(--teal); color: var(--navy); font-size: 8px; font-weight: 700; padding: 3px 8px; border-radius: 2px; margin-left: auto; }
+  .prog-tagline { font-size: 11px; color: var(--teal-dim); font-style: italic; margin-bottom: 6px; }
+  .prog-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+  .prog-amount  { font-size: 20px; font-weight: 700; color: var(--navy); }
+  .prog-was     { font-size: 12px; color: var(--foot-gray); text-decoration: line-through; }
+  .prog-disc    { font-size: 10px; background: var(--teal); color: var(--navy); font-weight: 700; padding: 2px 6px; border-radius: 2px; align-self: center; }
+  .prog-monthly { font-size: 10.5px; color: var(--label); margin-bottom: 8px; }
+  .prog-features { list-style: none; }
+  .prog-features li { font-size: 11.5px; color: var(--text); padding: 1.5px 0; display: flex; gap: 6px; align-items: baseline; }
+  .prog-features li::before { content: "▸"; color: var(--teal); font-size: 9px; flex-shrink: 0; }
+  .prog-radio { display: flex; align-items: center; justify-content: center; padding-top: 4px; }
+  .prog-radio input { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+
+  .note-box {
+    background: #EBF5FB; border: 1px solid var(--teal);
+    border-radius: 3px; padding: 8px 12px;
+    font-size: 10.5px; color: var(--label);
+    margin-bottom: 12px; line-height: 1.55;
+  }
+
+  .scope-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11.5px; }
+  .scope-table th {
+    background: var(--navy); color: var(--teal);
+    font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em;
+    text-align: left; padding: 8px 10px; text-transform: uppercase;
+  }
+  .scope-table td { padding: 7px 10px; border-bottom: 1px solid var(--field-bd); vertical-align: top; color: var(--text); }
+  .scope-table tr:nth-child(even) td { background: var(--field-bg); }
+  .scope-table tr:last-child td { border-bottom: none; }
+  .phase-cell { font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .week-cell  { color: var(--teal); font-weight: 600; white-space: nowrap; }
+
+  .deliv-row {
+    display: grid; grid-template-columns: 36px 1fr auto;
+    gap: 0 10px; align-items: center;
+    background: var(--field-bg); border: 1px solid var(--field-bd);
+    border-radius: 3px; padding: 8px 10px; margin-bottom: 5px;
+  }
+  .deliv-num { background: var(--teal); color: var(--navy); font-weight: 700; font-size: 11px; border-radius: 3px; display: flex; align-items: center; justify-content: center; height: 28px; width: 28px; flex-shrink: 0; }
+  .deliv-content strong { font-size: 12px; font-weight: 600; color: var(--navy); display: block; margin-bottom: 2px; }
+  .deliv-content span { font-size: 10.5px; color: var(--label); line-height: 1.45; }
+  .deliv-format { font-size: 10px; background: var(--navy); color: var(--teal); padding: 2px 7px; border-radius: 2px; font-weight: 600; white-space: nowrap; align-self: center; }
+
+  .terms-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11.5px; }
+  .terms-table td { padding: 8px 10px; border-bottom: 1px solid var(--field-bd); vertical-align: top; }
+  .terms-table tr:last-child td { border-bottom: none; }
+  .term-label { font-weight: 700; color: var(--navy); width: 35%; background: var(--field-bg); font-size: 11px; }
+  .term-val   { color: var(--text); }
+
+  .payment-card {
+    border: 1px solid var(--field-bd); border-radius: 4px;
+    padding: 12px 14px; margin-bottom: 8px;
+    background: var(--field-bg); cursor: pointer;
+    display: flex; gap: 12px; align-items: flex-start;
+    transition: border-color 0.15s;
+  }
+  .payment-card:hover { border-color: var(--teal); background: #f0fafd; }
+  .payment-card.selected { border-color: var(--teal); border-left: 3px solid var(--teal); background: #EBF5FB; }
+  .payment-card input { width: 14px; height: 14px; accent-color: var(--teal); flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+  .payment-card-body strong { font-size: 12px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 2px; }
+  .payment-card-body span  { font-size: 11px; color: var(--label); }
+
+  .sublabel {
+    font-size: 8.5px; font-weight: 700; color: var(--label);
+    letter-spacing: 0.07em; text-transform: uppercase;
+    display: block; margin-bottom: 6px; margin-top: 10px;
+  }
+
+  .legal-item { margin-bottom: 10px; }
+  .legal-item strong { font-size: 11px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 3px; }
+  .legal-item p { font-size: 11px; color: var(--label); line-height: 1.6; }
+
+  .attest-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--field-bg); border: 1px solid var(--field-bd);
+    border-radius: 3px; padding: 8px 10px; margin-bottom: 5px;
+    cursor: pointer; transition: border-color 0.12s;
+  }
+  .attest-row:hover { border-color: var(--teal); }
+  .attest-row.checked { border-color: var(--teal); background: #EBF5FB; }
+  .attest-row input { width: 13px; height: 13px; accent-color: var(--teal); flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+  .attest-row span  { font-size: 11px; color: var(--text); line-height: 1.5; }
+
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  .sig-party { border: 1px solid var(--field-bd); border-radius: 4px; padding: 14px 16px; background: var(--field-bg); }
+  .sig-party-title { font-size: 9px; font-weight: 700; color: var(--teal); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .sig-line { border: none; border-bottom: 1.5px solid var(--field-bd); width: 100%; background: transparent; padding: 4px 0; font-size: 12px; font-family: "Barlow", sans-serif; color: var(--text); outline: none; margin-bottom: 10px; display: block; }
+  .sig-line:focus { border-bottom-color: var(--teal); }
+  .sig-line-label { font-size: 8px; color: var(--label); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; display: block; }
+  .sig-esign-box { background: var(--white); border: 1.5px solid var(--teal); border-radius: 3px; padding: 8px 10px; margin-top: 4px; }
+  .sig-esign-hint { font-size: 9px; color: var(--foot-gray); font-style: italic; display: block; margin-bottom: 4px; }
+
+  .val-error { font-size: 9px; color: var(--red); margin-top: 3px; display: none; }
+  .val-error.show { display: block; }
+  input.invalid, textarea.invalid, select.invalid { border-color: var(--red) !important; }
+
+  .submit-row { text-align: center; padding: 20px 0 8px; }
+  .btn-submit {
+    background: var(--teal); color: var(--navy); border: none;
+    padding: 11px 40px; font-family: "Barlow", sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    border-radius: 3px; cursor: pointer; text-transform: uppercase;
+    transition: background 0.15s; margin-right: 10px;
+  }
+  .btn-submit:hover { background: var(--teal-dim); }
+  .btn-print {
+    background: transparent; color: var(--label);
+    border: 1px solid var(--field-bd); padding: 10px 28px;
+    font-family: "Barlow", sans-serif; font-size: 13px; font-weight: 600;
+    border-radius: 3px; cursor: pointer; transition: border-color 0.15s;
+  }
+  .btn-print:hover { border-color: var(--teal); color: var(--teal); }
+
+  .form-footer {
+    background: var(--navy); padding: 8px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 3px solid var(--teal);
+  }
+  .form-footer span { font-size: 10px; color: var(--foot-gray); }
+  .footer-right { color: var(--teal) !important; }
+
+  .success-box { background: #EBF5FB; border: 1.5px solid var(--teal); border-radius: 4px; padding: 20px 28px; text-align: center; }
+  .success-icon { font-size: 28px; margin-bottom: 10px; }
+  .success-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .success-msg { font-size: 12px; color: var(--label); line-height: 1.6; }
+
+  @media (max-width: 580px) {
+    .field-row, .field-row-3, .sow-meta, .sig-grid { grid-template-columns: 1fr; }
+    .header-badge { position: static; display: inline-block; margin-bottom: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header-card">
+    <div class="header-top-row">
+      <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABLAn0DASIAAhEBAxEB/8QAHAABAQACAwEBAAAAAAAAAAAAAAYDBQIEBwEI/8QATBAAAQMDAQQFBAoRBAIDAAAAAQACAwQFEQYHEiExE0FRYYEUInGRFRYyMzd1obGy0RcjJTQ1NkJSVVZydJOUs+HwJGKSwUNzU1Rj/8QAGgEBAQEBAQEBAAAAAAAAAAAAAAMCBAEFBv/EADwRAAEEAAMEBwYDBwUBAAAAAAEAAgMRBBIhMVFhkRNBcYGhscEFFCLR4fAjMkMzNFJygqLCJGJjk7Li/9oADAMBAAIRAxEAPwD8tIiL6a4URERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERXGlo477s7vVl3GGstrhcqV2POLBwkbn0ccdpUOtvZlAO9c0GI6V72EUWmvCwe9EQcThWutGR2TR1i041jW1U7Dcq0445fwjaevg0cQjWWCdy9mn6N7GAWXHwAsn76yFFIu7YrdNdrzSWynA6WpmbG3PIZPM9y9F2iMtV705VGzU7I3aaqG0hLGjMkBAbvk9fntPgVtkRe0u3eKhiMc2CZkRF5tp3dQvtOi8tRFd7DzSN1fUS10DZ6eO3Tvkjc0O3mhuSMHuWYmZ3hu9WxmI92gdNV5Rdb1CIqbaFp6GyXSOpt0nT2e4M6egm7WHm097c4PgplZewscWlbgnZPGJGbD98x1ois9QRsGyrTsgY0PdV1ALgOJ5KZsdzqrNdYLlR9H08JJZ0jA9vEEcQeB5rTmZSATuU4cQZo3OaNQXCr20SNvFdJFdfZU1V2Wz+Rj+pZKfX8F1lFJq2wWuuo5PNdNBTiKeLP5TXD5utbyRHQO8Pquc4nGNFuhFcHWe4Fo81Aot9rmwt09fXUkM/lFHNG2ekm/+SJ3Fp9PV4LNpfWt605QPord5H0T5DIempmyHJAHMjuCxkDXZX6Lo94dJCJYAHXvNeh8lNorr7Kmquy2fyMf1LVan1tetRW9tDcfI+ibIJB0VM2M5AI5gd605sYGjjy+qnHLjC4B8QA/mvwyhTSKw2NMZJtDt7JGNe0smyHDI96cpGT3x3pKwWUwO336fNWbPmndFWwA8yfkuKL12CwW7UGyiwW+JrI770FTUURwB04ZK7fjz1kggj0eleSSMdG9zHtLXNOCCMEFblhMdHeFDBY9mKL2gUWkiuwkX2GudhcUVJsxa1+vrMx7Q5pqmggjIK1epQG6jubWgACrlAA6vPKxk+DMrie5zDWwA33kei16IqDQ+m36iub2STilt9KwzVtU7lFGOfieoLxrS80FuaZkEZkeaAU+i9Bqde0dieaPRFloqKCPh5bUQiWpmI/KJPAej5uSxR7S7hXuEOqbXbL7SO4PEtO2OUDta9oG6e/Cr0cY0L9ezT77lwjFYtwziDTi4B3Kq/uUGi2WpW2Zt4l9gJKl9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lFaWSB0ssg9y5+MhrQeP+YMbDqTUUMHk8N+uscOMdGyskDfUDha2WSSaR0ksjpHuOXOccknvK2HxMNtBviovw2MnGSZ4DevKCCe8nTxO4hdq93OrvF3qrpXSb9RUyGR56hnqHcBwA7Aqi5/A5Z/jOf6IUUsrqiodTNpnTymBri5sZed0E8yByyptkrNfWumXDB3RhugYQe4AivFZ7Lcam03WmuVI7dmp5BIw9uOo9x5Laa71I/U978tFM2kpo4xHT07T5sbRxPrJJU+i8D3BuW9FQ4eN0omI+ICr4K02T/fWofiGq+ZqiystPUT05eYJ5Yi9hY/ceW7zTzBxzHcsSOfbQ3csxwFkz5L/ADV4K42t+/6d+I6f/tQ6y1FRUVBYaieWYsaGM33l260cgM8h3LEvZH53FyYOA4eFsZN0iudjkEtTebvTwRuklls9QxjG83OIAAUMs9HV1dFN01HVT00mMb8UhY7HZkJE8MeHFeYyA4iB0bTRKoPsf60/Vy4fw1wm0JrCGF80unq9kbGlznGPgAOZWu9sN/8A05c/5t/1r4+/317HMferk5rhgg1TyCPWt3DuPh8lANx96uZyPzVHst+9tV/EM/0mLDspoYZdQyXisaDRWeF1ZLnkXN9w30l2PUpWCoqIBIIJ5YhIwsk3Hlu808wccx3JFUVEUMsMU8rIpcCRjXkNfjlkdaNlAy2NiS4N7+lyurPQ7BVHw2LLdq6a5XOpuFQ7elqJXSPPeTldVEUSbNld7WhoDRsCudN/d/Zxd7E7zqu1O9kqMdfR8pW+gDDsdqx7Lfe9TfEk/wA7VH01TUUrzJTVEsD3NLS6N5aSDzHDqSCong3+gnli6RpY/ceRvNPMHHMdysJqLSRsXz5MAXMlYDo4g9h0vnV9pKxKg0JqF2nr10s0fT2+pYYK2nPKWJ3A8O0cwp9FJriwhwXbNCyeMxvFgr0zbRQ0Nus2laW2VPlNEKed9PJ2sc8Ob6gcKT0LqL2vXd0k8JqbfVRmCtp8++Ru5+I5j+60ktRPLFFDLPK+OIERsc8kMB4nA6liVXzXJnaK2Ljw2ADMJ7tKc22zvsk89eavLxs9qqxhumjZWXu1yHLRE4dND/tew8c+j5FrrZs71hXS7pstRRxj3c1WOhYwdZJdjh6Mqboqyropumoqqeml/PhkLHesLtXC+Xu4x9FcLxcKxn5s9S+QeolM0J1LTz0WRDjmDI2RpG8g330QCeS7GrrdarVc20NqunsmI4wKidrcRmXjvBh628uK52nSWpbtRMrbbZquqpnkhskbMg4OD8q0a71JeLtRwCCkuldTxDkyKoc1o8AVgFhdbhpwXS5k7Ig2NwLt7ht5Utz9j/Wn6t3D+GtbfNO3yxsifd7ZU0TZSRGZW43iOeFx9sN//Tlz/m3/AFrr11yuNe1ra6vqqoMOWiaZz930ZK9cYq+EG1OIYzOOkLa4A35rqIiKS7kRERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERF//9k=" alt="VanRein Compliance" style="height:52px;width:auto;display:block;margin-left:-12px;margin-top:20px;padding-left:0;">
+      <div class="header-badge">STATEMENT OF WORK v1.0 · CONFIDENTIAL</div>
+    </div>
+    <div class="form-title">AI Governance Statement of Work</div>
+    <div class="form-subtitle">This Statement of Work is entered into between VanRein Compliance and the Client named below, and governs the delivery of AI Governance services as selected herein. This SOW is subject to VanRein's Master Services Agreement.</div>
+  </div>
+
+  <div class="form-body">
+
+    <!-- SECTION 01 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 01</span>
+      <div class="section-div"></div>
+      <span class="section-title">PARTIES &amp; AGREEMENT DETAILS</span>
+      <span class="section-badge sb-req">REQUIRED</span>
+    </div>
+
+    <div class="sow-meta">
+      <div class="sow-meta-cell"><span class="meta-label">SOW Number</span><input type="text" id="sow_number" placeholder="SOW-2025-001"></div>
+      <div class="sow-meta-cell"><span class="meta-label">Effective Date</span><input type="date" id="effective_date"></div>
+      <div class="sow-meta-cell"><span class="meta-label">SOW Version</span><input type="text" id="sow_version" value="1.0"></div>
+      <div class="sow-meta-cell"><span class="meta-label">Expiration Date</span><input type="date" id="expiration_date"></div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label class="field-label">SERVICE PROVIDER</label>
+        <input type="text" value="VanRein Compliance LLC" class="readonly-field" readonly>
+      </div>
+      <div>
+        <label class="field-label">CLIENT / ORGANIZATION NAME <span class="req">*</span></label>
+        <input type="text" id="client_name" placeholder="Legal entity name">
+        <div class="val-error" id="err_client_name">Required</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div>
+        <label class="field-label">PROVIDER ADDRESS</label>
+        <input type="text" value="Texas, United States" class="readonly-field" readonly>
+      </div>
+      <div>
+        <label class="field-label">CLIENT ADDRESS <span class="req">*</span></label>
+        <input type="text" id="client_address" placeholder="Street, City, State, ZIP">
+        <div class="val-error" id="err_client_address">Required</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div>
+        <label class="field-label">PROVIDER PRIMARY CONTACT</label>
+        <input type="text" value="Bennie — Bennie@vanreincompliance.com" class="readonly-field" readonly>
+      </div>
+      <div>
+        <label class="field-label">CLIENT PRIMARY CONTACT <span class="req">*</span></label>
+        <input type="text" id="client_contact" placeholder="Name, Title, Email">
+        <div class="val-error" id="err_client_contact">Required</div>
+      </div>
+    </div>
+
+    <!-- SECTION 02 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 02</span>
+      <div class="section-div"></div>
+      <span class="section-title">PROGRAM SELECTION</span>
+      <span class="section-badge sb-req">REQUIRED</span>
+    </div>
+
+    <div class="loyalty-banner">
+      <strong>★ PREFERRED CLIENT PRICING — 10% LOYALTY ADJUSTMENT APPLIED</strong>
+      <span>As a long-term client, we've applied preferred pricing to extend your compliance program into AI Governance without increasing complexity.</span>
+    </div>
+
+    <label class="program-card" id="card-opt1" onclick="selectProgram('opt1')">
+      <div>
+        <div class="prog-header">
+          <span class="prog-badge">OPTION 01</span>
+          <span class="prog-title">AI Risk Snapshot</span>
+        </div>
+        <div class="prog-tagline">Quick clarity. Immediate visibility.</div>
+        <div class="prog-price-row"><span class="prog-amount">$13,950</span><span class="prog-was">$15,500</span><span class="prog-disc">10% off</span></div>
+        <div class="prog-monthly">or $1,165/month × 12 months</div>
+        <ul class="prog-features">
+          <li>Targeted AI Risk Review</li>
+          <li>AI Usage Discovery (High-Level)</li>
+          <li>PHI Exposure &amp; Data Risk Check</li>
+          <li>Key Vendor Review (Sample-Based)</li>
+          <li>HIPAA-Aligned Risk Insights &amp; Executive Summary</li>
+        </ul>
+      </div>
+      <div class="prog-radio"><input type="radio" name="program_option" value="opt1" id="radio_opt1"></div>
+    </label>
+
+    <label class="program-card" id="card-opt2" onclick="selectProgram('opt2')">
+      <div>
+        <div class="prog-header">
+          <span class="prog-badge">OPTION 02</span>
+          <span class="prog-title">AI Governance Assessment</span>
+          <span class="prog-rec">★ RECOMMENDED</span>
+        </div>
+        <div class="prog-tagline">Structured insight. Defined risk posture.</div>
+        <div class="prog-price-row"><span class="prog-amount">$22,500</span><span class="prog-was">$25,000</span><span class="prog-disc">10% off</span></div>
+        <div class="prog-monthly">or $1,875/month × 12 months</div>
+        <ul class="prog-features">
+          <li>Comprehensive AI Inventory &amp; Usage Mapping</li>
+          <li>Full AI Risk Assessment (Data, Models, Usage)</li>
+          <li>Data Flow &amp; PHI Exposure Analysis</li>
+          <li>Vendor Security &amp; Compliance Review</li>
+          <li>AI Risk Register (Included)</li>
+          <li>Policy Gap Analysis</li>
+          <li>NIST AI RMF + HIPAA Control Mapping</li>
+          <li>Usage &amp; Prompt Risk Evaluation</li>
+        </ul>
+      </div>
+      <div class="prog-radio"><input type="radio" name="program_option" value="opt2" id="radio_opt2"></div>
+    </label>
+
+    <label class="program-card" id="card-opt3" onclick="selectProgram('opt3')">
+      <div>
+        <div class="prog-header">
+          <span class="prog-badge">OPTION 03</span>
+          <span class="prog-title">AI Governance Program</span>
+        </div>
+        <div class="prog-tagline">Full governance. Built to scale.</div>
+        <div class="prog-price-row"><span class="prog-amount">$45,000</span><span class="prog-was">$50,000</span><span class="prog-disc">10% off</span></div>
+        <div class="prog-monthly">or $3,750/month × 12 months</div>
+        <ul class="prog-features">
+          <li>Enterprise AI Inventory + Risk Classification Model</li>
+          <li>AI Governance Framework Development</li>
+          <li>Data Protection Controls + Governance Integration</li>
+          <li>Vendor Governance + Approval Framework</li>
+          <li>AI Acceptable Use Policy (Draft Included)</li>
+          <li>Security Architecture &amp; Control Design</li>
+          <li>AI Risk Register (Integrated)</li>
+          <li>Workforce AI Usage Framework &amp; Training</li>
+          <li>Phased Implementation Roadmap (6–12 Months)</li>
+          <li>Executive Advisory &amp; Ongoing Governance Support</li>
+        </ul>
+      </div>
+      <div class="prog-radio"><input type="radio" name="program_option" value="opt3" id="radio_opt3"></div>
+    </label>
+    <div class="val-error" id="err_program">Please select a program option</div>
+
+    <!-- SECTION 03 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 03</span>
+      <div class="section-div"></div>
+      <span class="section-title">SCOPE OF WORK</span>
+    </div>
+
+    <div class="note-box" id="scope-placeholder">Select a program above to view the detailed scope of work, phases, and timelines.</div>
+
+    <div id="scope-opt1" style="display:none;">
+      <table class="scope-table">
+        <thead><tr><th>Phase</th><th>Activities</th><th style="width:90px">Timeline</th></tr></thead>
+        <tbody>
+          <tr><td class="phase-cell">Phase 1<br>Discovery</td><td>Stakeholder kickoff, AI tools inventory questionnaire, documentation review</td><td class="week-cell">Week 1</td></tr>
+          <tr><td class="phase-cell">Phase 2<br>Assessment</td><td>AI usage mapping, PHI exposure analysis, sample vendor review, HIPAA risk alignment</td><td class="week-cell">Weeks 2–3</td></tr>
+          <tr><td class="phase-cell">Phase 3<br>Reporting</td><td>Risk findings documentation, executive risk summary, remediation recommendations</td><td class="week-cell">Week 4</td></tr>
+          <tr><td class="phase-cell">Phase 4<br>Closeout</td><td>Findings presentation, Q&amp;A session, report delivery</td><td class="week-cell">Week 4–5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="scope-opt2" style="display:none;">
+      <table class="scope-table">
+        <thead><tr><th>Phase</th><th>Activities</th><th style="width:90px">Timeline</th></tr></thead>
+        <tbody>
+          <tr><td class="phase-cell">Phase 1<br>Discovery</td><td>Stakeholder kickoff, full AI system inventory questionnaire, document and vendor list collection</td><td class="week-cell">Week 1</td></tr>
+          <tr><td class="phase-cell">Phase 2<br>Inventory &amp; Mapping</td><td>Comprehensive AI usage mapping, data flow analysis, PHI exposure assessment, model and vendor classification</td><td class="week-cell">Weeks 2–3</td></tr>
+          <tr><td class="phase-cell">Phase 3<br>Risk Assessment</td><td>Full AI risk assessment across data, models, and usage; NIST AI RMF + HIPAA control mapping; prompt risk evaluation</td><td class="week-cell">Weeks 4–5</td></tr>
+          <tr><td class="phase-cell">Phase 4<br>Risk Register</td><td>AI Risk Register development with scoring, ownership, and mitigation tracking; policy gap analysis</td><td class="week-cell">Week 6</td></tr>
+          <tr><td class="phase-cell">Phase 5<br>Reporting</td><td>Executive and technical report delivery, remediation roadmap, VRC1 platform onboarding</td><td class="week-cell">Weeks 7–8</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="scope-opt3" style="display:none;">
+      <table class="scope-table">
+        <thead><tr><th>Phase</th><th>Activities</th><th style="width:90px">Timeline</th></tr></thead>
+        <tbody>
+          <tr><td class="phase-cell">Phase 1<br>Discovery</td><td>Enterprise kickoff, executive stakeholder interviews, full AI system and vendor inventory, architecture review</td><td class="week-cell">Weeks 1–2</td></tr>
+          <tr><td class="phase-cell">Phase 2<br>Inventory &amp; Classification</td><td>Enterprise AI inventory with risk classification model, data flow and PHI exposure mapping, vendor governance review</td><td class="week-cell">Weeks 3–4</td></tr>
+          <tr><td class="phase-cell">Phase 3<br>Framework Development</td><td>AI Governance Framework design, Acceptable Use Policy drafting, security architecture and control design, data protection controls integration</td><td class="week-cell">Weeks 5–7</td></tr>
+          <tr><td class="phase-cell">Phase 4<br>Risk &amp; Controls</td><td>Integrated AI Risk Register, NIST AI RMF + HIPAA control mapping, vendor approval framework, security control design</td><td class="week-cell">Weeks 8–9</td></tr>
+          <tr><td class="phase-cell">Phase 5<br>Training</td><td>Workforce AI usage framework, staff training sessions, prompt hygiene certification, HIPAA-aligned compliance alignment</td><td class="week-cell">Weeks 10–11</td></tr>
+          <tr><td class="phase-cell">Phase 6<br>Roadmap &amp; Advisory</td><td>Phased implementation roadmap (6–12 months), executive advisory presentation, ongoing governance support kickoff</td><td class="week-cell">Weeks 12–14</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 04 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 04</span>
+      <div class="section-div"></div>
+      <span class="section-title">DELIVERABLES</span>
+    </div>
+
+    <div class="note-box" id="deliv-placeholder">Select a program above to view deliverables.</div>
+
+    <div id="deliv-opt1" style="display:none;">
+      <div class="deliv-row"><span class="deliv-num">01</span><div class="deliv-content"><strong>AI Usage Discovery Report</strong><span>High-level inventory of AI tools and use cases identified across the organization</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">02</span><div class="deliv-content"><strong>PHI Exposure &amp; Data Risk Assessment</strong><span>Assessment of sensitive data exposure through AI tools and workflows</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">03</span><div class="deliv-content"><strong>Vendor Sample Review Summary</strong><span>Review of up to 3 key AI vendors for data handling and contractual risk</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">04</span><div class="deliv-content"><strong>HIPAA-Aligned Risk Insights Report</strong><span>Risk findings mapped to HIPAA requirements with remediation priorities</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">05</span><div class="deliv-content"><strong>Executive Risk Summary</strong><span>Leadership-ready summary of AI risk exposure and recommended next steps</span></div><span class="deliv-format">PDF + Slides</span></div>
+    </div>
+
+    <div id="deliv-opt2" style="display:none;">
+      <div class="deliv-row"><span class="deliv-num">01</span><div class="deliv-content"><strong>Comprehensive AI System Inventory</strong><span>Full catalog of AI tools, vendors, models, and pipelines across the organization</span></div><span class="deliv-format">VRC1 + PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">02</span><div class="deliv-content"><strong>Data Flow &amp; PHI Exposure Analysis</strong><span>Detailed mapping of data flows to/from AI systems with PHI exposure findings</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">03</span><div class="deliv-content"><strong>AI Risk Assessment Report</strong><span>Full risk assessment across data inputs, model behavior, usage patterns, and vendor risk</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">04</span><div class="deliv-content"><strong>AI Risk Register</strong><span>Centralized register with risk scoring, ownership assignments, and mitigation tracking</span></div><span class="deliv-format">VRC1</span></div>
+      <div class="deliv-row"><span class="deliv-num">05</span><div class="deliv-content"><strong>Vendor Security &amp; Compliance Review</strong><span>DPA, BAA, and data handling review for all identified AI vendors</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">06</span><div class="deliv-content"><strong>Policy Gap Analysis</strong><span>Assessment of existing policies against AI governance requirements</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">07</span><div class="deliv-content"><strong>NIST AI RMF + HIPAA Control Mapping</strong><span>Alignment of identified controls against NIST AI RMF and HIPAA Security Rule</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">08</span><div class="deliv-content"><strong>Executive &amp; Technical Reports</strong><span>Leadership summary and detailed technical findings with prioritized remediation roadmap</span></div><span class="deliv-format">PDF + Slides</span></div>
+    </div>
+
+    <div id="deliv-opt3" style="display:none;">
+      <div class="deliv-row"><span class="deliv-num">01</span><div class="deliv-content"><strong>Enterprise AI Inventory &amp; Risk Classification Model</strong><span>Full enterprise-wide AI system catalog with risk tier classification</span></div><span class="deliv-format">VRC1 + PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">02</span><div class="deliv-content"><strong>AI Governance Framework</strong><span>Complete governance framework including policies, controls, oversight roles, and accountability structure</span></div><span class="deliv-format">PDF + DOCX</span></div>
+      <div class="deliv-row"><span class="deliv-num">03</span><div class="deliv-content"><strong>AI Acceptable Use Policy</strong><span>Drafted AUP covering PHI handling, prompt guidance, prohibited uses, and enforcement</span></div><span class="deliv-format">DOCX</span></div>
+      <div class="deliv-row"><span class="deliv-num">04</span><div class="deliv-content"><strong>Vendor Governance &amp; Approval Framework</strong><span>Vendor assessment process, approval workflow, DPA/BAA review templates</span></div><span class="deliv-format">VRC1 + PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">05</span><div class="deliv-content"><strong>Integrated AI Risk Register</strong><span>Live risk register with scoring, ownership, mitigation tracking in VRC1</span></div><span class="deliv-format">VRC1</span></div>
+      <div class="deliv-row"><span class="deliv-num">06</span><div class="deliv-content"><strong>Security Architecture &amp; Control Design</strong><span>AI-specific security controls integrated into existing architecture</span></div><span class="deliv-format">PDF</span></div>
+      <div class="deliv-row"><span class="deliv-num">07</span><div class="deliv-content"><strong>Workforce Training &amp; Certification Materials</strong><span>Training curriculum, staff certification records, prompt hygiene guidelines</span></div><span class="deliv-format">PDF + LMS</span></div>
+      <div class="deliv-row"><span class="deliv-num">08</span><div class="deliv-content"><strong>Phased Implementation Roadmap (6–12 Months)</strong><span>Prioritized action plan with milestones, owners, and success metrics</span></div><span class="deliv-format">PDF + Slides</span></div>
+      <div class="deliv-row"><span class="deliv-num">09</span><div class="deliv-content"><strong>Executive Advisory Report &amp; Presentation</strong><span>Board/leadership-ready governance posture summary and strategic recommendations</span></div><span class="deliv-format">PDF + Slides</span></div>
+    </div>
+
+    <!-- SECTION 05 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 05</span>
+      <div class="section-div"></div>
+      <span class="section-title">ENGAGEMENT DETAILS</span>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label class="field-label">ENGAGEMENT START DATE <span class="req">*</span></label>
+        <input type="date" id="start_date">
+        <div class="val-error" id="err_start_date">Required</div>
+      </div>
+      <div>
+        <label class="field-label">ESTIMATED COMPLETION DATE</label>
+        <input type="date" id="end_date">
+      </div>
+      <div>
+        <label class="field-label">ENGAGEMENT FORMAT</label>
+        <select id="eng_format">
+          <option value="">Select...</option>
+          <option>Remote / Virtual</option>
+          <option>On-Site</option>
+          <option>Hybrid (Remote + On-Site)</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">PRIMARY WORK LOCATION</label>
+        <input type="text" id="work_location" placeholder="City, State or Remote">
+      </div>
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">SPECIAL REQUIREMENTS / CONSTRAINTS</label>
+      <textarea id="special_req" rows="2" placeholder="Access requirements, blackout periods, system restrictions, etc."></textarea>
+    </div>
+
+    <span class="sublabel">CLIENT RESPONSIBILITIES</span>
+    <div class="note-box" style="font-style:normal;color:var(--navy);">
+      Client agrees to: (1) designate a primary technical point of contact; (2) provide timely access to systems, documentation, and personnel required for assessment; (3) respond to information requests within 5 business days; (4) review and approve deliverables within 10 business days of receipt.
+    </div>
+
+    <!-- SECTION 06 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 06</span>
+      <div class="section-div"></div>
+      <span class="section-title">FEES &amp; PAYMENT TERMS</span>
+      <span class="section-badge sb-req">REQUIRED</span>
+    </div>
+
+    <table class="terms-table">
+      <tr><td class="term-label">Service Fee</td><td class="term-val" id="fee-display">— Select a program option above —</td></tr>
+      <tr><td class="term-label">Loyalty Discount</td><td class="term-val">10% preferred client adjustment applied</td></tr>
+      <tr><td class="term-label">Currency</td><td class="term-val">USD</td></tr>
+      <tr><td class="term-label">Invoicing</td><td class="term-val">VanRein Compliance LLC</td></tr>
+      <tr><td class="term-label">Late Payment</td><td class="term-val">1.5% per month on balances outstanding beyond payment terms</td></tr>
+      <tr><td class="term-label">Expenses</td><td class="term-val">Travel and out-of-pocket expenses billed at cost with prior written approval</td></tr>
+    </table>
+
+    <span class="sublabel">SELECT PAYMENT STRUCTURE <span class="req">*</span></span>
+
+    <label class="payment-card" id="pay-split" onclick="selectPayment('split')">
+      <input type="radio" name="payment_structure" value="split" id="radio_pay_split">
+      <div class="payment-card-body">
+        <strong>50% Upfront / 50% on Completion</strong>
+        <span>50% due upon execution of this SOW. Remaining 50% due upon delivery of final report / program completion.</span>
+      </div>
+    </label>
+
+    <label class="payment-card" id="pay-monthly" onclick="selectPayment('monthly')">
+      <input type="radio" name="payment_structure" value="monthly" id="radio_pay_monthly">
+      <div class="payment-card-body">
+        <strong>Monthly Installments (12-Month Term)</strong>
+        <span>Equal monthly payments over 12 months. First payment due upon execution. Auto-renewal with 30-day written notice to cancel.</span>
+      </div>
+    </label>
+
+    <label class="payment-card" id="pay-annual" onclick="selectPayment('annual')">
+      <input type="radio" name="payment_structure" value="annual" id="radio_pay_annual">
+      <div class="payment-card-body">
+        <strong>Annual Payment (Single Invoice)</strong>
+        <span>Full program fee invoiced upon execution. Net 15 payment terms.</span>
+      </div>
+    </label>
+    <div class="val-error" id="err_payment">Please select a payment structure</div>
+
+    <div class="field-row" style="margin-top:10px">
+      <div>
+        <label class="field-label">PURCHASE ORDER NUMBER (IF REQUIRED)</label>
+        <input type="text" id="po_number" placeholder="PO-XXXXX">
+      </div>
+      <div>
+        <label class="field-label">BILLING CONTACT / ACCOUNTS PAYABLE EMAIL</label>
+        <input type="email" id="billing_email" placeholder="ap@organization.com">
+      </div>
+    </div>
+
+    <!-- SECTION 07 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 07</span>
+      <div class="section-div"></div>
+      <span class="section-title">TERMS &amp; CONDITIONS</span>
+    </div>
+
+    <div class="legal-item"><strong>Confidentiality</strong><p>Both parties agree to keep confidential all non-public information received from the other party in connection with this SOW. VanRein will treat all client data, systems information, and findings as strictly confidential and will not disclose such information to any third party without prior written consent, except as required by law.</p></div>
+    <div class="legal-item"><strong>Intellectual Property</strong><p>All deliverables produced specifically for Client under this SOW are owned by Client upon full payment. VanRein retains ownership of its proprietary methodologies, tools, frameworks, and pre-existing intellectual property used in delivery of services.</p></div>
+    <div class="legal-item"><strong>Limitation of Liability</strong><p>VanRein's total liability under this SOW shall not exceed the total fees paid by Client in the three (3) months preceding the claim. Neither party shall be liable for indirect, incidental, consequential, or punitive damages.</p></div>
+    <div class="legal-item"><strong>Termination</strong><p>Either party may terminate this SOW with 30 days written notice. Client shall pay for all services rendered through the termination date. VanRein shall deliver all work product completed as of the termination date.</p></div>
+    <div class="legal-item"><strong>Governing Law</strong><p>This SOW shall be governed by the laws of the State of Texas. Any disputes shall be resolved by binding arbitration in Texas.</p></div>
+    <div class="legal-item"><strong>Entire Agreement</strong><p>This SOW, together with any applicable Master Services Agreement, constitutes the entire agreement between the parties and supersedes all prior discussions, representations, and agreements relating to the subject matter herein.</p></div>
+
+    <!-- SECTION 08 -->
+    <div class="section-bar">
+      <span class="section-num">SECTION 08</span>
+      <div class="section-div"></div>
+      <span class="section-title">AUTHORIZATION &amp; SIGNATURES</span>
+      <span class="section-badge sb-req">REQUIRED</span>
+    </div>
+
+    <div class="note-box">By signing below, both parties agree to the terms of this Statement of Work and confirm they are authorized to bind their respective organizations.</div>
+
+    <span class="sublabel">ACKNOWLEDGEMENTS</span>
+    <label class="attest-row" id="attest-scope" onclick="toggleAttest('attest_scope','attest-scope')">
+      <input type="checkbox" id="attest_scope">
+      <span>I confirm the scope, deliverables, and fees described in this SOW are accurate and agreed upon.</span>
+    </label>
+    <label class="attest-row" id="attest-terms" onclick="toggleAttest('attest_terms','attest-terms')">
+      <input type="checkbox" id="attest_terms">
+      <span>I have read, understood, and agree to the Terms &amp; Conditions in Section 07.</span>
+    </label>
+    <label class="attest-row" id="attest-auth" onclick="toggleAttest('attest_auth','attest-auth')">
+      <input type="checkbox" id="attest_auth">
+      <span>I am authorized to execute this Statement of Work on behalf of the named organization.</span>
+    </label>
+    <label class="attest-row" id="attest-msa" onclick="toggleAttest('attest_msa','attest-msa')">
+      <input type="checkbox" id="attest_msa">
+      <span>I acknowledge this SOW is governed by VanRein Compliance's Master Services Agreement.</span>
+    </label>
+    <div class="val-error" id="err_attest">All acknowledgements must be checked before executing</div>
+
+    <div class="sig-grid" style="margin-top:14px;">
+      <div class="sig-party">
+        <div class="sig-party-title">Client — Authorized Signatory</div>
+        <span class="sig-line-label">Full Legal Name <span class="req">*</span></span>
+        <input type="text" class="sig-line" id="client_sig_name" placeholder="">
+        <div class="val-error" id="err_client_sig_name">Required</div>
+        <span class="sig-line-label">Title / Authority <span class="req">*</span></span>
+        <input type="text" class="sig-line" id="client_sig_title" placeholder="">
+        <div class="val-error" id="err_client_sig_title">Required</div>
+        <span class="sig-line-label">Organization <span class="req">*</span></span>
+        <input type="text" class="sig-line" id="client_sig_org" placeholder="">
+        <div class="val-error" id="err_client_sig_org">Required</div>
+        <span class="sig-line-label">Date <span class="req">*</span></span>
+        <input type="date" class="sig-line" id="client_sig_date">
+        <div class="val-error" id="err_client_sig_date">Required</div>
+        <div class="sig-esign-box" style="margin-top:8px;">
+          <span class="sig-esign-hint">Electronic Signature — Type full name to sign</span>
+          <input type="text" class="sig-line" id="client_esig" placeholder="Type full legal name" style="margin-bottom:0;">
+          <div class="val-error" id="err_client_esig">Required</div>
+        </div>
+      </div>
+      <div class="sig-party">
+        <div class="sig-party-title">VanRein Compliance — Authorized Signatory</div>
+        <span class="sig-line-label">Full Legal Name</span>
+        <input type="text" class="sig-line" id="vr_sig_name" placeholder="">
+        <span class="sig-line-label">Title</span>
+        <input type="text" class="sig-line" id="vr_sig_title" placeholder="">
+        <span class="sig-line-label">Organization</span>
+        <input type="text" class="sig-line" id="vr_sig_org" value="VanRein Compliance LLC" readonly style="color:var(--label);">
+        <span class="sig-line-label">Date</span>
+        <input type="date" class="sig-line" id="vr_sig_date">
+        <div class="sig-esign-box" style="margin-top:8px;">
+          <span class="sig-esign-hint">Electronic Signature — Type full name to sign</span>
+          <input type="text" class="sig-line" id="vr_esig" placeholder="Type full legal name" style="margin-bottom:0;">
+        </div>
+      </div>
+    </div>
+
+    <div id="submit-area" class="submit-row">
+      <button type="button" class="btn-submit" onclick="handleSubmit()">Execute Statement of Work</button>
+      <button type="button" class="btn-print no-print" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+  </div><!-- /form-body -->
+
+  <div class="form-footer">
+    <span>VanRein Compliance — Confidential &amp; Proprietary</span>
+    <span class="footer-right">AI Governance Statement of Work v1.0</span>
+  </div>
+
+</div><!-- /page -->
+</div><!-- /wrapper -->
+
+<script>
+const FEES = {
+  opt1: { label: 'AI Risk Snapshot', full: '$15,500', discounted: '$13,950', monthly: '$1,165/month × 12 months' },
+  opt2: { label: 'AI Governance Assessment', full: '$25,000', discounted: '$22,500', monthly: '$1,875/month × 12 months' },
+  opt3: { label: 'AI Governance Program', full: '$50,000', discounted: '$45,000', monthly: '$3,750/month × 12 months' },
+};
+
+let selectedProgram = null;
+let selectedPayment = null;
+
+function selectProgram(opt) {
+  selectedProgram = opt;
+  ['opt1','opt2','opt3'].forEach(o => {
+    document.getElementById('card-' + o).classList.toggle('selected', o === opt);
+  });
+  ['scope-opt1','scope-opt2','scope-opt3','deliv-opt1','deliv-opt2','deliv-opt3'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('scope-' + opt).style.display = 'block';
+  document.getElementById('deliv-' + opt).style.display = 'block';
+  document.getElementById('scope-placeholder').style.display = 'none';
+  document.getElementById('deliv-placeholder').style.display = 'none';
+  document.getElementById('radio_' + opt).checked = true;
+  const f = FEES[opt];
+  document.getElementById('fee-display').innerHTML =
+    '<strong style="color:var(--navy)">' + f.label + '</strong> &nbsp;|&nbsp; ' +
+    '<span style="text-decoration:line-through;color:var(--foot-gray)">' + f.full + '</span> &nbsp;→&nbsp; ' +
+    '<strong style="color:var(--teal)">' + f.discounted + '</strong> (10% loyalty discount) &nbsp;|&nbsp; ' +
+    '<span style="color:var(--label)">' + f.monthly + '</span>';
+  hideErr('err_program');
+}
+
+function selectPayment(val) {
+  selectedPayment = val;
+  ['split','monthly','annual'].forEach(p => {
+    document.getElementById('pay-' + p).classList.toggle('selected', p === val);
+  });
+  document.getElementById('radio_pay_' + val).checked = true;
+  hideErr('err_payment');
+}
+
+function toggleAttest(cbId, rowId) {
+  const cb = document.getElementById(cbId);
+  const row = document.getElementById(rowId);
+  cb.checked = !cb.checked;
+  row.classList.toggle('checked', cb.checked);
+  hideErr('err_attest');
+}
+
+function g(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+function showErr(id) { const e = document.getElementById(id); if(e){ e.style.display='block'; e.classList.add('show'); } }
+function hideErr(id) { const e = document.getElementById(id); if(e){ e.style.display='none'; e.classList.remove('show'); } }
+function markInvalid(id) { const e = document.getElementById(id); if(e) e.classList.add('invalid'); }
+function clearInvalid(id) { const e = document.getElementById(id); if(e) e.classList.remove('invalid'); }
+
+['client_name','client_address','client_contact','start_date','client_sig_name','client_sig_title','client_sig_org','client_sig_date','client_esig'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', () => { clearInvalid(id); hideErr('err_' + id); });
+});
+
+function handleSubmit() {
+  let valid = true;
+  const required = [
+    ['client_name','err_client_name'],['client_address','err_client_address'],
+    ['client_contact','err_client_contact'],['start_date','err_start_date'],
+    ['client_sig_name','err_client_sig_name'],['client_sig_title','err_client_sig_title'],
+    ['client_sig_org','err_client_sig_org'],['client_sig_date','err_client_sig_date'],
+    ['client_esig','err_client_esig'],
+  ];
+  required.forEach(([fid, eid]) => {
+    if (!g(fid)) { markInvalid(fid); showErr(eid); valid = false; }
+    else { clearInvalid(fid); hideErr(eid); }
+  });
+  if (!selectedProgram) { showErr('err_program'); valid = false; }
+  if (!selectedPayment) { showErr('err_payment'); valid = false; }
+  if (!['attest_scope','attest_terms','attest_auth','attest_msa'].every(a => document.getElementById(a).checked)) {
+    showErr('err_attest'); valid = false;
+  }
+  if (!valid) {
+    document.querySelector('[style*="display: block"].val-error, .val-error.show')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  const prog = FEES[selectedProgram];
+  const payMap = { split: '50% Upfront / 50% on Completion', monthly: 'Monthly Installments (12-Month)', annual: 'Annual Payment (Single Invoice)' };
+  const lines = [
+    '=== VANREIN COMPLIANCE — AI GOVERNANCE STATEMENT OF WORK ===','',
+    'SOW Number:         ' + (g('sow_number') || 'TBD'),
+    'Effective Date:     ' + g('effective_date'),
+    'Version:            ' + (g('sow_version') || '1.0'),'',
+    '── PARTIES ──────────────────────────────────────────────────',
+    'Service Provider:   VanRein Compliance LLC',
+    'Client:             ' + g('client_name'),
+    'Client Address:     ' + g('client_address'),
+    'Client Contact:     ' + g('client_contact'),'',
+    '── PROGRAM SELECTED ─────────────────────────────────────────',
+    'Program:            ' + prog.label,
+    'Full Price:         ' + prog.full,
+    'Discounted Price:   ' + prog.discounted + ' (10% loyalty)',
+    'Monthly Option:     ' + prog.monthly,
+    'Payment Structure:  ' + (payMap[selectedPayment] || selectedPayment),
+    'PO Number:          ' + (g('po_number') || 'N/A'),
+    'Billing Email:      ' + (g('billing_email') || 'N/A'),'',
+    '── ENGAGEMENT DETAILS ───────────────────────────────────────',
+    'Start Date:         ' + g('start_date'),
+    'Est. Completion:    ' + (g('end_date') || 'TBD'),
+    'Format:             ' + (g('eng_format') || 'N/A'),
+    'Work Location:      ' + (g('work_location') || 'N/A'),
+    'Special Req:        ' + (g('special_req') || 'None'),'',
+    '── AUTHORIZATION ────────────────────────────────────────────',
+    'Client Signatory:   ' + g('client_sig_name'),
+    'Client Title:       ' + g('client_sig_title'),
+    'Client Org:         ' + g('client_sig_org'),
+    'Client Sig Date:    ' + g('client_sig_date'),
+    'Electronic Sig:     ' + g('client_esig'),'',
+    'VanRein Signatory:  ' + (g('vr_sig_name') || 'Pending'),
+    'VanRein Title:      ' + (g('vr_sig_title') || 'Pending'),
+    'VanRein Sig Date:   ' + (g('vr_sig_date') || 'Pending'),'',
+    'Attestations:       Scope ✓  Terms ✓  Authority ✓  MSA ✓','',
+    '═══════════════════════════════════════════════════════════',
+    'Submitted via VanRein Compliance AI Governance SOW v1.0',
+  ];
+
+  const subject = encodeURIComponent('AI Governance SOW — ' + g('client_name') + ' — ' + prog.label);
+  const body = encodeURIComponent(lines.join('\n'));
+  const to = 'Bennie@vanreincompliance.com,dawn@vanreincompliance.com,hello@vanreincompliance.com';
+  window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+
+  setTimeout(() => {
+    document.getElementById('submit-area').innerHTML =
+      '<div style="background:#EBF5FB;border:1.5px solid var(--teal);border-radius:4px;padding:20px 28px;text-align:center;">' +
+      '<div style="font-size:28px;margin-bottom:10px;">✓</div>' +
+      '<div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;">Statement of Work Ready to Send</div>' +
+      '<div style="font-size:12px;color:var(--label);line-height:1.6;">Your email client has opened with the executed SOW pre-filled.<br>Please press <strong>Send</strong> to deliver to:<br>' +
+      '<span style="color:var(--teal);font-weight:600;">Bennie@vanreincompliance.com &nbsp;·&nbsp; dawn@vanreincompliance.com &nbsp;·&nbsp; hello@vanreincompliance.com</span></div></div>';
+  }, 600);
+}
+</script>
+</body>
+</html>
